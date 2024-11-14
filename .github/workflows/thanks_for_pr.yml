@@ -19,5 +19,5 @@ jobs:
               password: ${{ secrets.SMTP_PASSWORD }}
               subject: Thank you for your contribution!
               body: Dear ${{ github.event.pull_request.user.login }}, Thank you for your pull request. It has been successfully merged.
-              to: ${{ github.event.pull_request.user.email }}
+              to: DanielChristopher.Kreuter@bosch.com
               from: no-reply@example.com
