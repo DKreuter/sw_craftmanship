@@ -1,23 +1,20 @@
-name: Send Thank You Email after PR merge
+name: Thank Contributor after PR merge
 
 on:
     pull_request:
         types: [closed]
 
 jobs:
-    send_email:
+    comment_pr:
         if: github.event.pull_request.merged == true
         runs-on: ubuntu-latest
 
         steps:
-          - name: Send Thank You Email
-            uses: dawidd6/action-send-mail@v3
+          - name: Post Thank You Comment
+            uses: peter-evans/create-or-update-comment@v1
             with:
-              server_address: smtp.example.com
-              server_port: 587
-              username: ${{ secrets.SMTP_USERNAME }}
-              password: ${{ secrets.SMTP_PASSWORD }}
-              subject: Thank you for your contribution!
-              body: Dear ${{ github.event.pull_request.user.login }}, Thank you for your pull request. It has been successfully merged.
-              to: DanielChristopher.Kreuter@bosch.com
-              from: no-reply@example.com
+              token: ${{ secrets.GITHUB_TOKEN }}
+              issue-number: ${{ github.event.pull_request.number }}
+              body: |
+                Dear @${{ github.event.pull_request.user.login }},
+                Thank you for your pull request. It has been successfully merged.
