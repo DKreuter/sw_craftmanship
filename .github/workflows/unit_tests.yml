@@ -21,9 +21,9 @@ jobs:
           pip install -U setuptools setuptools_scm wheel
           pip install -e .[testing]
       - name: Run tests
-        run: |
-          pytest
-      - name: Run coverage
+        env:
+          COVERAGE_PROCESS_START: .coveragerc
         run: |
           coverage run -m pytest
+          coverage combine
           coverage report -m
