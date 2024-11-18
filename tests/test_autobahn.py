@@ -4,9 +4,7 @@ import folium
 import pandas as pd
 import pytest
 
-from src.autobahn.autobahn import TrafficWarning, get_warnings, map_plot
-
-# FILE: src/autobahn/test_autobahn.py
+from autobahn.autobahn import TrafficWarning, get_warnings, map_plot
 
 
 @pytest.fixture
