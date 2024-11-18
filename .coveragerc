@@ -7,7 +7,6 @@ source = autobahn
 [paths]
 source =
     src/
-    */site-packages/
 
 [report]
 # Regexes for lines to exclude from consideration
