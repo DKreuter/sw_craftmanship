@@ -1,13 +1,14 @@
-name: Run Unit Tests
+name: Check Code Coverage
 
-on: [push]
+on:
+    [pull_request]
 
 jobs:
-  test:
+  coverage:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, windows-latest]
         python-version: ["3.10"]
 
     steps:
@@ -20,14 +21,12 @@ jobs:
         run: |
           pip install -U setuptools setuptools_scm wheel
           pip install -e .[testing]
-      - name: Run tests
+      - name: Run tests with coverage
         env:
           COVERAGE_PROCESS_START: .coveragerc
         run: |
           pytest --cov-report html
           coverage html
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-report
-          path: htmlcov
+      - name: Check coverage
+        run: |
+          coverage report --fail-under=100
