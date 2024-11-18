@@ -17,10 +17,10 @@ repos:
   - id: mixed-line-ending
     args: ['--fix=auto']  # replace 'auto' with 'lf' to enforce Linux/Mac line endings or 'crlf' for Windows
 
-- repo: https://github.com/PyCQA/isort
-  rev: 5.13.2
-  hooks:
-  - id: isort
+# - repo: https://github.com/PyCQA/isort
+#   rev: 5.13.2
+#   hooks:
+#   - id: isort
 
 - repo: https://github.com/psf/black
   rev: 24.4.2

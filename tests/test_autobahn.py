@@ -4,7 +4,12 @@ import folium
 import pandas as pd
 import pytest
 
-from autobahn.autobahn import TrafficWarning, get_warnings, map_plot
+from autobahn.autobahn import (
+    TrafficWarning,
+    calculate_traffic_length,
+    get_warnings,
+    map_plot,
+)
 
 
 @pytest.fixture
@@ -80,8 +85,8 @@ def test_map_plot(mock_response):
     assert isinstance(m, folium.Map)
 
 
-# def test_calculate_traffic_length():
-#     coordinates = [[50.0, 8.0], [51.0, 9.0]]
-#     expected_length = 130.0  # Example expected length in kilometers
-#     actual_length = calculate_traffic_length(coordinates)
-#     assert abs(expected_length - actual_length) < 1.0  # Allow some tolerance
+def test_calculate_traffic_length():
+    coordinates = [[10.0, 0.0], [12.0, 0.0]]
+    expected_length = 222.0
+    actual_length = calculate_traffic_length(coordinates)
+    assert abs(expected_length - actual_length) < 1.0  # Allow some tolerance
