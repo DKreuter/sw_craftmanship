@@ -1,6 +1,7 @@
 import folium
 import pandas as pd
 import requests
+from geopy.distance import geodesic
 
 url_bab = "https://verkehr.autobahn.de/o/autobahn"
 
@@ -38,9 +39,15 @@ class TrafficWarning:
                 "lat": [coord[0] for coord in coordinates],
                 "long": [coord[1] for coord in coordinates],
             }
-        )
-
+        ).dropna()
         return df
+
+
+def calculate_traffic_length(coordinates):
+    total_length = 0.0
+    for i in range(len(coordinates) - 1):
+        total_length += geodesic(coordinates[i], coordinates[i + 1]).kilometers
+    return total_length
 
 
 def map_plot(plotlist, on="aveg_speed"):
