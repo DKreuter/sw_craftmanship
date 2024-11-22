@@ -4,10 +4,10 @@ autobahn package
 Submodules
 ----------
 
-autobahn.skeleton module
+autobahn.autobahn module
 ------------------------
 
-.. automodule:: autobahn.skeleton
+.. automodule:: autobahn.autobahn
    :members:
    :undoc-members:
    :show-inheritance:

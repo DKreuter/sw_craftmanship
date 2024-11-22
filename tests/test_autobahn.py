@@ -86,7 +86,7 @@ def test_map_plot(mock_response):
 
 
 def test_calculate_traffic_length():
-    coordinates = [[10.0, 0.0], [12.0, 0.0]]
+    coordinates = pd.DataFrame({"lat": [10.0, 12.0], "long": [0.0, 0.0]})
     expected_length = 222.0
     actual_length = calculate_traffic_length(coordinates)
     assert abs(expected_length - actual_length) < 1.0  # Allow some tolerance
