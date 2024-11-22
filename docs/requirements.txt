@@ -3,6 +3,7 @@ geopy
 ipykernel
 ipython
 jupyter
+jupyter_sphinx
 myst-parser
 nbsphinx
 nbsphinx-link
