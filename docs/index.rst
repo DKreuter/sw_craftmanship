@@ -26,9 +26,7 @@ Contents
 
 .. toctree::
    :maxdepth: 2
-   :caption: Example
-
-   example
+   :caption: Examples
 
 .. toctree::
    :maxdepth: 2
