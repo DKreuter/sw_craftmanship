@@ -110,7 +110,7 @@ class TrafficWarning:
         return df
 
 
-def calculate_traffic_length(coordinates):
+def calculate_TRAFFIC_length(coordinates):
     """
     Calculate the total length of traffic from coordinates.
 
@@ -147,17 +147,17 @@ def map_plot(plotlist, on="aveg_speed"):
         A Folium map with the plotted traffic data.
     """
 
-    lat_lng_list = [pd.DataFrame({"lat": df["lat"], "long": df["long"]}) for df in plotlist]
+    lat_lng_list = [
+        pd.DataFrame({"lat": df["lat"], "long": df["long"]}) for df in plotlist
+    ]
     on_stats = pd.concat(df[on] for df in plotlist).describe()
     colormap = folium.LinearColormap(
         ["green", "yellow", "red"], vmin=on_stats["min"], vmax=on_stats["max"]
     )
 
-    m = folium.Map(
-        pd.concat([data for data in lat_lng_list]).mean(), zoom_start=10
-    )
+    m = folium.Map(pd.concat([data for data in lat_lng_list]).mean(), zoom_start=10)
     for lat_lng, df in zip(lat_lng_list, plotlist):
-        
+
         points_ = [(point[0], point[1]) for point in lat_lng.to_numpy()]
         folium.features.ColorLine(
             points_,
