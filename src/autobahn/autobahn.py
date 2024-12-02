@@ -103,27 +103,16 @@ class TrafficWarning:
         """
         df = pd.DataFrame(
             {
-                "lat": [coord[0] for coord in coordinates],
-                "long": [coord[1] for coord in coordinates],
+                "lat": [coord[1] for coord in coordinates],
+                "long": [coord[0] for coord in coordinates],
             }
         ).dropna()
         return df
 
 
 def calculate_traffic_length(coordinates):
-    """
-    Calculate the total length of traffic from coordinates.
 
-    Parameters
-    ----------
-    coordinates : list
-        A list of geographical coordinates.
-
-    Returns
-    -------
-    float
-        The total length of traffic in kilometers.
-    """
+    coordinates = coordinates.dropna()
     total_length = 0.0
     for i in range(len(coordinates) - 1):
         total_length += geodesic(coordinates.loc[i], coordinates.loc[i + 1]).kilometers
@@ -146,16 +135,19 @@ def map_plot(plotlist, on="aveg_speed"):
     folium.Map
         A Folium map with the plotted traffic data.
     """
+
+    lat_lng_list = [
+        pd.DataFrame({"lat": df["lat"], "long": df["long"]}) for df in plotlist
+    ]
     on_stats = pd.concat(df[on] for df in plotlist).describe()
     colormap = folium.LinearColormap(
         ["green", "yellow", "red"], vmin=on_stats["min"], vmax=on_stats["max"]
     )
 
-    m = folium.Map(
-        pd.concat([data[["long", "lat"]] for data in plotlist]).mean(), zoom_start=10
-    )
-    for df in plotlist:
-        points_ = [(point[0], point[1]) for point in df[["long", "lat"]].to_numpy()]
+    m = folium.Map(pd.concat([data for data in lat_lng_list]).mean(), zoom_start=10)
+    for lat_lng, df in zip(lat_lng_list, plotlist):
+
+        points_ = [(point[0], point[1]) for point in lat_lng.to_numpy()]
         folium.features.ColorLine(
             points_,
             colors=[data for data in df[on]],

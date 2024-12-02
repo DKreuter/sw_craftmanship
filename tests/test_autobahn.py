@@ -56,14 +56,20 @@ def test_traffic_warning_initialization(mock_response):
     assert warning.routeRecommendation == warning_data["routeRecommendation"]
     assert warning.lorryParkingFeatureIcons == warning_data["lorryParkingFeatureIcons"]
     pd.testing.assert_frame_equal(
-        warning.geo_df, pd.DataFrame({"lat": [50.0, 51.0], "long": [8.0, 9.0]})
+        warning.geo_df,
+        pd.DataFrame(
+            {
+                "lat": [8.0, 9.0],
+                "long": [50.0, 51.0],
+            }
+        ),
     )
 
 
 def test_create_geo_dataframe(mock_response):
     warning_data = mock_response["warning"][0]
     warning = TrafficWarning(warning_data)
-    expected_df = pd.DataFrame({"lat": [50.0, 51.0], "long": [8.0, 9.0]})
+    expected_df = pd.DataFrame({"lat": [8.0, 9.0], "long": [50.0, 51.0]})
     actual_df = TrafficWarning.create_geo_dataframe(
         warning, warning_data["geometry"]["coordinates"]
     )
@@ -72,7 +78,7 @@ def test_create_geo_dataframe(mock_response):
 
 def test_create_geo_dataframe_with_nan():
     coords = [[50.0, 8.0], [None, 9.0]]
-    expected_df = pd.DataFrame({"lat": [50.0], "long": [8.0]})
+    expected_df = pd.DataFrame({"lat": [8.0], "long": [50.0]})
     actual_df = TrafficWarning.create_geo_dataframe(expected_df, coords)
     pd.testing.assert_frame_equal(expected_df, actual_df)
 
@@ -87,6 +93,13 @@ def test_map_plot(mock_response):
 
 def test_calculate_traffic_length():
     coordinates = pd.DataFrame({"lat": [10.0, 12.0], "long": [0.0, 0.0]})
+    expected_length = 222.0
+    actual_length = calculate_traffic_length(coordinates)
+    assert abs(expected_length - actual_length) < 1.0  # Allow some tolerance
+
+
+def test_calculate_traffic_length_with_NaN():
+    coordinates = pd.DataFrame({"lat": [10.0, 12.0, None], "long": [0.0, 0.0, 0.0]})
     expected_length = 222.0
     actual_length = calculate_traffic_length(coordinates)
     assert abs(expected_length - actual_length) < 1.0  # Allow some tolerance

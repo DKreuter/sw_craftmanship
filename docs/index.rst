@@ -26,10 +26,6 @@ Contents
 
 .. toctree::
    :maxdepth: 2
-   :caption: Examples
-
-.. toctree::
-   :maxdepth: 2
    :caption: Agenda and Topics
 
    AGENDA
