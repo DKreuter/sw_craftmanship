@@ -110,20 +110,9 @@ class TrafficWarning:
         return df
 
 
-def calculate_TRAFFIC_length(coordinates):
-    """
-    Calculate the total length of traffic from coordinates.
+def calculate_traffic_length(coordinates):
 
-    Parameters
-    ----------
-    coordinates : list
-        A list of geographical coordinates.
-
-    Returns
-    -------
-    float
-        The total length of traffic in kilometers.
-    """
+    coordinates = coordinates.dropna()
     total_length = 0.0
     for i in range(len(coordinates) - 1):
         total_length += geodesic(coordinates.loc[i], coordinates.loc[i + 1]).kilometers
